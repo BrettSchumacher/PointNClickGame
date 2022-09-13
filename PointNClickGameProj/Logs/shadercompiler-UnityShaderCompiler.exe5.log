@@ -2,5 +2,18 @@ Base path: 'C:/Program Files/Unity/Hub/Editor/2021.3.9f1/Editor/Data', plugins p
 Cmd: initializeCompiler
 
 Cmd: compileComputeKernel
-  insize=4217 file=Assets/Scripts/Shaders/PaintbrushShader.compute kernel=UpdateTexture cachingPP=1 ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202139> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=1692
+  insize=4578 file=Assets/Scripts/Shaders/PaintbrushShader.compute kernel=MoveAgent cachingPP=1 ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202139> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at PaintbrushShader.compute(114): integer divides may be much slower, try using uints if possible.
+  error: 1 plat 4 at PaintbrushShader.compute(115): integer divides may be much slower, try using uints if possible.
+  error: 1 plat 4 at PaintbrushShader.compute(117): integer divides may be much slower, try using uints if possible.
+ ok=1 outsize=4765
+
+Cmd: compileComputeKernel
+  insize=4582 file=Assets/Scripts/Shaders/PaintbrushShader.compute kernel=MoveAgent cachingPP=1 ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202139> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 2 plat 4 at PaintbrushShader.compute(121): if statement conditional expressions must evaluate to a scalar
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=4539 file=Assets/Scripts/Shaders/PaintbrushShader.compute kernel=MoveAgent cachingPP=1 ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202139> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at PaintbrushShader.compute(114): integer divides may be much slower, try using uints if possible.
+  error: 1 plat 4 at PaintbrushShader.compute(115): integer divides may be much slower, try using uints if possible.
+  error: 1 plat 4 at PaintbrushShader.compute(117): integer divides may be much slower, try using uints if possible.
+ ok=1 outsize=4649
 

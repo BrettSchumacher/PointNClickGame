@@ -522,19 +522,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resX: 1920
   resY: 1080
-  numAgents: 20000
-  diffuse: 100
+  numAgents: 5000
+  diffuse: 500
   decay: 0.05
-  agentSpeed: 1000
-  maxAcc: 1000
+  agentSpeed: 5000
+  accMult: 5000
   spawnRate: 10000
   agentRad: 12
-  goalRad: 40
-  border: 50
+  goalRad: 100
+  border: 40
   baseColor: {r: 0.882353, g: 0.9921569, b: 1, a: 1}
   paintbrushShader: {fileID: 7200000, guid: bda0ba4545686d34ea4a2e7a62f120a2, type: 3}
   render: {fileID: 8400000, guid: 5f9d8703c75139f4cb115d50879277ef, type: 2}
   target: {fileID: 2100000, guid: 9e0f13867bb8b7e48beafdcfe2f4c81d, type: 2}
+  paintbrushTex: {fileID: 2800000, guid: 5c41cbf2a8211aa4ea6fe335ff1406d3, type: 3}
 --- !u!81 &1801512767
 AudioListener:
   m_ObjectHideFlags: 0

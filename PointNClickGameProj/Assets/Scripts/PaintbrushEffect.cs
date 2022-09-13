@@ -18,7 +18,7 @@ public class PaintbrushEffect : MonoBehaviour
     public float diffuse = 0.1f;
     public float decay = 0.2f;
     public float agentSpeed = 2f;
-    public float maxAcc = 2f;
+    public float accMult = 1f;
     public float spawnRate = 10000f;
     public float agentRad = 3f;
     public float goalRad = 10f;
@@ -28,6 +28,7 @@ public class PaintbrushEffect : MonoBehaviour
     // public Texture2D baseImage;
     public RenderTexture render;
     public Material target;
+    public Texture2D paintbrushTex;
 
     // private Texture2D scaledImage;
     private RenderTexture _paintbrush;
@@ -42,7 +43,7 @@ public class PaintbrushEffect : MonoBehaviour
         paintbrushShader.SetFloat("diffuse", diffuse);
         paintbrushShader.SetFloat("decay", decay);
         paintbrushShader.SetFloat("agentSpeed", agentSpeed);
-        paintbrushShader.SetFloat("maxAcc", maxAcc);
+        paintbrushShader.SetFloat("accMult", accMult);
         paintbrushShader.SetFloat("agentRad", agentRad);
         paintbrushShader.SetFloat("goalRad", goalRad);
         paintbrushShader.SetVector("baseColor", baseColor);
@@ -70,7 +71,7 @@ public class PaintbrushEffect : MonoBehaviour
         Spren temp;
 
         int num = (int) Mathf.Min(numAgents - _agents.Count, spawnRate * dt);
-        float offset = border + goalRad;
+        float offset = border + goalRad / 2f;
 
         for (int i = 0; i < num; i++)
         {
@@ -131,6 +132,7 @@ public class PaintbrushEffect : MonoBehaviour
 
         paintbrushShader.SetBuffer(0, "agents", agents);
         paintbrushShader.SetTexture(0, "light", _paintbrush);
+        paintbrushShader.SetTexture(0, "brushTexture", paintbrushTex);
         paintbrushShader.SetTexture(0, "readTexture", render);
         paintbrushShader.SetFloat("dt", Time.fixedDeltaTime);
         paintbrushShader.SetFloat("time", Time.time);

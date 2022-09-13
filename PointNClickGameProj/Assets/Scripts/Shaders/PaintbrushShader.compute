@@ -18,13 +18,14 @@ int height;
 float diffuse;
 float decay;
 float agentSpeed;
-float maxAcc;
+float accMult;
 float agentRad;
 float dt;
 float time;
 float seed;
 float goalRad;
 float4 baseColor;
+Texture2D<float4> brushTexture;
 RWStructuredBuffer<Agent> agents;
 RWTexture2D<float4> light;
 Texture2D<float4> readTexture;
@@ -55,46 +56,22 @@ bool inBounds(int2 pos)
 
 void UpdatePosition(inout Agent agent, inout uint agent_seed)
 {
-    if (length(agent.pos - agent.goal) > goalRad)
-    {
-        float2 goal = agent.goal + float2((random(agent_seed++) - 0.5f) * 2 * goalRad, (random(agent_seed++) - 0.5f) * 2 * goalRad);
-        float2 acc = goal - agent.pos - agent.vel * 2.f;
-        if (length(acc) > maxAcc)
-        {
-            acc = maxAcc * normalize(acc);
-        }
+
+    float2 goal = agent.goal + float2((random(agent_seed++) - 0.5f) * 2 * goalRad, (random(agent_seed++) - 0.5f) * 2 * goalRad);
+    float2 acc = accMult * (goal - agent.pos - agent.vel * 1.5f);
+    acc /= float2(width, width);
     
-        agent.vel += acc * dt;
-    }
+    agent.vel += acc * dt;
     
-    if (length(agent.vel) > agentSpeed)
-    {
-        agent.vel = agentSpeed * normalize(agent.vel);
-    }
+    //if (length(agent.vel) > agentSpeed)
+    //{
+    //    agent.vel = agentSpeed * normalize(agent.vel);
+    //}
     
     agent.pos += agent.vel * dt;
     
-    if (agent.pos.x < 0)
-    {
-        agent.pos.x = 0;
-        agent.vel.x *= -1;
-    }
-    else if (agent.pos.x >= width)
-    {
-        agent.pos.x = width - 1;
-        agent.vel.x *= -1;
-    }
-    
-    if (agent.pos.y < 0)
-    {
-        agent.pos.y = 0;
-        agent.vel.y *= -1;
-    }
-    else if (agent.pos.y >= height)
-    {
-        agent.pos.y = height - 1;
-        agent.vel.y *= -1;
-    }
+    agent.pos.x = max(min(agent.pos.x, width - 1), 0);
+    agent.pos.y = max(min(agent.pos.y, height - 1), 0);
 }
 
 [numthreads(64, 1, 1)]
@@ -116,23 +93,36 @@ void MoveAgent(uint3 id : SV_DispatchThreadID)
     }
     
     float2 offset;
-    float theta = atan2(agent.vel.y, agent.vel.x);
-    float2x2 rotate = float2x2(cos(theta), sin(theta), -sin(theta), cos(theta));
-    for (int xOff = -agentRad; xOff <= agentRad; xOff++)
+    // float theta = atan2(agent.vel.y, agent.vel.x);
+    // float2x2 rotate = float2x2(cos(theta), sin(theta), -sin(theta), cos(theta));
+    // for (int xOff = -agentRad; xOff <= agentRad; xOff++)
+    // {
+    //     for (int yOff = -agentRad; yOff <= agentRad; yOff++)
+    //     {
+    //         offset = float2(-xOff, yOff);
+    //         if (inBounds(agent.pos + offset) && (xOff * xOff + yOff * yOff < agentRad * agentRad))
+    //         {
+    //             float4 writeCol = agent.atGoal ? readTexture[agent.pos + offset] : baseColor;
+    //             float lerpAmt = agent.atGoal ? (length(writeCol) + 0.5f) / (2.f + length(offset)) : 0.1f / (1.f + length(offset));
+    //             light[agent.pos + offset] = lerp(light[agent.pos + offset], writeCol, lerpAmt);
+    //         }
+    //     }
+    // }
+    
+    int resX, resY;
+    brushTexture.GetDimensions(resX, resY);
+    int2 center = int2(resX / 2, resY / 2);
+    for (int xOff = -resX / 2; xOff < resX / 2; xOff++)
     {
-        for (int yOff = -agentRad; yOff <= agentRad; yOff++)
+        for (int yOff = -resY / 2; yOff < resY / 2; yOff++)
         {
-            offset = mul(rotate, float2(-xOff, yOff));
-            if (inBounds(agent.pos + offset) && (xOff * xOff + yOff * yOff < agentRad * agentRad))
+            offset = float2(xOff, yOff);
+            float alpha = brushTexture[offset + center].a;
+            if (inBounds(agent.pos + offset) && alpha > 0)
             {
-                if (agent.atGoal)
-                {
-                    light[agent.pos + offset] = lerp(light[agent.pos + offset], readTexture[agent.pos + offset], 1.f / (1.f + length(offset)));
-                }
-                else
-                {
-                    light[agent.pos + offset] = lerp(light[agent.pos + offset], baseColor, 0.1f / (1.f + length(offset)));
-                }
+                float4 writeCol = agent.atGoal ? readTexture[agent.pos + offset] : baseColor;
+                float lerpAmt = agent.atGoal ? (length(writeCol) + 0.5f) / 2.5f : 0.1f;
+                light[agent.pos + offset] = lerp(light[agent.pos + offset], writeCol, alpha * lerpAmt);
             }
         }
     }
