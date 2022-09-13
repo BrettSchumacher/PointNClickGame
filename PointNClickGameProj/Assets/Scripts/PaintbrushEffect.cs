@@ -25,11 +25,11 @@ public class PaintbrushEffect : MonoBehaviour
     public float border = 50f;
     public Color baseColor;
     public ComputeShader paintbrushShader;
-    public Texture2D baseImage;
+    // public Texture2D baseImage;
     public RenderTexture render;
     public Material target;
 
-    private Texture2D scaledImage;
+    // private Texture2D scaledImage;
     private RenderTexture _paintbrush;
     private Camera _camera;
     private List<Spren> _agents;
@@ -93,16 +93,16 @@ public class PaintbrushEffect : MonoBehaviour
         //GenerateAgents();
         InitRenderTexture();
 
-        scaledImage = new Texture2D(Screen.width, Screen.height);
-        Color pix;
-        for (int i = 0; i < scaledImage.width; i++)
-        {
-            for (int j = 0; j < scaledImage.height; j++)
-            {
-                pix = baseImage.GetPixel((baseImage.width * i) / scaledImage.width, (baseImage.height * j) / scaledImage.height);
-                scaledImage.SetPixel(i, j, pix);
-            }
-        }
+        // scaledImage = new Texture2D(Screen.width, Screen.height);
+        // Color pix;
+        // for (int i = 0; i < scaledImage.width; i++)
+        // {
+        //     for (int j = 0; j < scaledImage.height; j++)
+        //     {
+        //         pix = baseImage.GetPixel((baseImage.width * i) / scaledImage.width, (baseImage.height * j) / scaledImage.height);
+        //         scaledImage.SetPixel(i, j, pix);
+        //     }
+        // }
 
         target.mainTexture = _paintbrush;
     }
